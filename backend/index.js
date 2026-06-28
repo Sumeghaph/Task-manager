@@ -1,25 +1,53 @@
-// Middleware
+// // Middleware
+// app.use(cors({
+//   origin: [
+//     "http://localhost:5173",
+//     "https://task-manager-rho-rust.vercel.app"
+//   ],
+//   credentials:true
+// }))
+
+// app.use(express.json())
+// app.use(cookieParser())
+
+// // Routes
+// app.use("/api/auth", authRoutes)
+// app.use("/api/users", userRoutes)
+// app.use("/api/tasks", taskRoutes)
+// app.use("/api/reports", reportRoutes)
+
+// app.use("/uploads", express.static(path.join(__dirname, "uploads")))
+
+
+// // Start server
+// app.listen(process.env.PORT || 3000, () => {
+//   console.log(`Server is running on port ${process.env.PORT || 3000}`)
+// })
+
+const app = express();
+
 app.use(cors({
-  origin: [
-    "http://localhost:5173",
-    "https://task-manager-rho-rust.vercel.app"
-  ],
-  credentials:true
-}))
+  origin: function (origin, callback) {
+    const allowedOrigins = [
+      "http://localhost:5173",
+      "https://task-manager-rho-rust.vercel.app"
+    ];
 
-app.use(express.json())
-app.use(cookieParser())
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true
+}));
 
-// Routes
-app.use("/api/auth", authRoutes)
-app.use("/api/users", userRoutes)
-app.use("/api/tasks", taskRoutes)
-app.use("/api/reports", reportRoutes)
+app.options("*", cors());
 
-app.use("/uploads", express.static(path.join(__dirname, "uploads")))
+app.use(express.json());
+app.use(cookieParser());
 
-
-// Start server
+app.use("/api/auth", authRoutes);
 app.listen(process.env.PORT || 3000, () => {
-  console.log(`Server is running on port ${process.env.PORT || 3000}`)
-})
+  console.log("Server running");
+});
