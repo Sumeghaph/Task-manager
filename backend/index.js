@@ -28,13 +28,13 @@ mongoose
 const app = express()
 
 // Middleware to handle cors
-app.use(
-  cors({
-    origin: process.env.FRONT_END_URL || "http://localhost:5173",
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true,
-  })
-)
+app.use(cors({
+ origin:[
+   "http://localhost:5173",
+   "https://task-manager.vercel.app"
+ ],
+ credentials:true
+}))
 
 // Middleware to handle JSON object in req body
 app.use(express.json())
