@@ -77,7 +77,7 @@ app.use(cors({
   allowedHeaders: ["Content-Type","Authorization"]
 }))
 
-app.options("*", cors())
+
 
 // other middleware
 app.use(express.json())
